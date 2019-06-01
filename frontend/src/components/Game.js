@@ -9,9 +9,14 @@ class Game extends React.Component {
   }
 
   render() {
+    let inviteUrl = this.props.service.getBaseUrl()
+      + '/play/'
+      + this.props.match.params.gameId;
     return (
       <div>
-        <h1>Welcome to a game with id {this.props.match.params.gameId}</h1>
+        {/* Invite your friends link with service.baseUrl + /play/gameId */}
+        <h3>Invite your friends: </h3>
+        <code>{inviteUrl}</code>
       </div>
 
     );

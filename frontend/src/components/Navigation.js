@@ -11,9 +11,9 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <div>
+      <nav>
         <Link to='/'>Home</Link>
-      </div>
+      </nav>
 
     );
   }

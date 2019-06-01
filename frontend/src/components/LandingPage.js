@@ -2,8 +2,8 @@ import React from 'react';
 
 class LandingPage extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
     };
   }
@@ -18,10 +18,11 @@ class LandingPage extends React.Component {
     );
   }
 
-  onClickCreateGame = () =>{ 
+  onClickCreateGame = async () => { 
+    console.log(this.props);
     console.log('clicked createGame button');
-    // TODO(ak): Make Firebase call
-    this.props.history.push('/play/123');
+    let gameId = await this.props.service.createGame();
+    this.props.history.push(`/play/${gameId}`);
   }
 }
 
