@@ -1,0 +1,14 @@
+Nicknames for players stored in local cache
+MockService, FirebaseService
+Use firebase realtime DB or firestore
+make all components typescript
+
+consider installing:
+  firebase
+  react-cookies
+  @material-ui/core
+  @material-ui/icons
+
+  devDependencies:
+    firebase-mock
+    mock-cloud-firestore
