@@ -1,6 +1,12 @@
 Nicknames for players stored in local cache
+allow clearing username (to refresh new ones!)
+actions: call liar, or raise
+
+game lifecycle: JOINING, IN_ROUND, END_ROUND, OVER
+
 MockService, FirebaseService
 Use firebase realtime DB or firestore
+See ongoing games.
 make all components typescript
 
 consider installing:
