@@ -1,13 +1,32 @@
-Nicknames for players stored in local cache
-allow clearing username (to refresh new ones!)
 actions: call liar, or raise
 
 game lifecycle: JOINING, IN_ROUND, END_ROUND, OVER
+
+add isReady to transition from joining to in_round, and from end_round to in_round
+
+Validate bets, transition game lifecycle after each one,
+doing everything client-side and using Firebase as just a dictionary
+store.
+
+instructions on landingPage
+mockService support subscribing to new game state, like FireBase.
+
+FirebaseAPI:
+  createGame, joinGame, updateGameState
+
+error message in game componennt when invalid action
+
+Subscribe to gamestate updates on the Game component through FB api,
+or just poll it with setInterval().
 
 MockService, FirebaseService
 Use firebase realtime DB or firestore
 See ongoing games.
 make all components typescript
+
+DONE
+  Nicknames for players stored in local cache
+  allow clearing username (to refresh new ones!)
 
 consider installing:
   firebase

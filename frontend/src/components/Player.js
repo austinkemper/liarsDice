@@ -7,10 +7,10 @@ class Player extends React.Component {
 
     let diceString;
 
-    if (this.props.isHero === true) {
-      diceString = gamePlayer.dice.toString();
+    if (this.props.isHero === true || this.props.lifeCycle === 'END_ROUND') {
+      diceString = 'dice: ' + gamePlayer.dice.toString();
     } else {
-      diceString = gamePlayer.dice.length + ' dice.';
+      diceString = `has ${gamePlayer.dice.length} dice`;
     }
 
     let youString = '';
@@ -23,9 +23,17 @@ class Player extends React.Component {
       turnString = '[My turn]';
     }
 
+    let lastBetString = '';
+    if (gamePlayer.lastBet !== undefined &&  gamePlayer.lastBet !== null) {
+      lastBetString = `last bet: ${gamePlayer.lastBet.quantity} ${gamePlayer.lastBet.rank}'s`
+    }
+
     return (
       <li>
-        {gamePlayer.name}, has {diceString} <b>{turnString}{youString}</b>
+        {gamePlayer.name} <b>{turnString}{youString}</b> <br></br>
+        {diceString} <br></br>
+        {lastBetString} <br></br>
+        -----------------------------
       </li>
     );
   }

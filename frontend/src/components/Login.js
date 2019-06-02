@@ -45,7 +45,11 @@ class Login extends React.Component {
     return (
       <div>
         <h2>Pick a name: </h2>
-        <input type='text' name='username' defaultValue={this.state.suggestedUsername}/>
+        <input 
+          type='text' 
+          name='username'
+          onChange={(event) => {this.onChangeInput(event.target.value)}}
+          defaultValue={this.state.suggestedUsername}/>
         <button onClick={this.onClickJoin}>Join</button>
       </div>
     );
