@@ -11,7 +11,7 @@ class Root extends React.Component {
 
   constructor() {
     super();
-    let isProd = false;
+    let isProd = true;
     let service = new MockService();
     if (isProd) {
       service = new FirebaseService();

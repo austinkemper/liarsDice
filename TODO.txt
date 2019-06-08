@@ -8,8 +8,12 @@ Validate bets, transition game lifecycle after each one,
 doing everything client-side and using Firebase as just a dictionary
 store.
 
+if you refresh, you join the game again (breaks the game) 
+Fix: cache gameId: userId combo and catch it in joinGame().
+
 instructions on landingPage
 mockService support subscribing to new game state, like FireBase.
+host with FB hosting.
 
 FirebaseAPI:
   createGame, joinGame, updateGameState

@@ -20,13 +20,18 @@ class Game extends React.Component {
 
   componentDidMount = async () => {
     let gameId = this.props.gameId;
-    let heroId = await this.props.service.joinGame(gameId);
+    let heroId = await this.props.service.joinGame(gameId, this.props.service.getUsername());
     let newGameState = await
       this.props.service.getGameState(gameId);
     this.setState({
       heroId: heroId,
       gameId: gameId,
       gameState: newGameState,
+    });
+    this.props.service.subscribeToGameStateChanges(gameId, (updatedGameState) => {
+      this.setState({
+        gameState: updatedGameState,
+      })
     });
   }
 
@@ -45,6 +50,7 @@ class Game extends React.Component {
       readyNextRoundButton = <button onClick={this.onClickNextRound}>Next Round</button>
     }
 
+    console.log('akGameState: ', this.state.gameState);
     let playerListItems = this.state.gameState.players.map((player) => {
       let isHero = player.id === this.state.heroId;
       let isPlayersTurn = player.id === this.state.gameState.whosTurnId;
@@ -125,6 +131,11 @@ class Game extends React.Component {
   }  
 
   dealNewRound = (newGameState) => {
+    if (newGameState.lifeCycle === 'JOINING') {
+      newGameState.players.forEach((p) => {
+        p.dice = [-1, -1, -1, -1, -1];
+      });
+    }
     newGameState.lifeCycle = 'IN_ROUND';
     if (newGameState.lastRoundLoserId) {
       newGameState.players.find(p => p.id === newGameState.lastRoundLoserId).dice.pop();
