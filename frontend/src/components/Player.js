@@ -9,7 +9,7 @@ class Player extends React.Component {
 
     if (this.props.lifeCycle === 'JOINING') {
       diceString = '';
-    } else if (this.props.isHero === true || this.props.lifeCycle === 'END_ROUND') {
+    } else if (this.props.isHero === true || this.props.lifeCycle === 'END_ROUND' || this.props.lifeCycle === 'OVER') {
       diceString = 'dice: ' + gamePlayer.dice.toString();
     } else {
       diceString = `has ${gamePlayer.dice.length} dice`;

@@ -11,6 +11,9 @@ store.
 if you refresh, you join the game again (breaks the game) 
 Fix: cache gameId: userId combo and catch it in joinGame().
 
+instructions
+polish view
+
 instructions on landingPage
 mockService support subscribing to new game state, like FireBase.
 host with FB hosting.
@@ -19,6 +22,8 @@ FirebaseAPI:
   createGame, joinGame, updateGameState
 
 error message in game componennt when invalid action
+
+show dice on end round.
 
 Subscribe to gamestate updates on the Game component through FB api,
 or just poll it with setInterval().

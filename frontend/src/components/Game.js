@@ -36,9 +36,7 @@ class Game extends React.Component {
   }
 
   render() {
-    let inviteUrl = this.props.service.getBaseUrl()
-      + '/play/'
-      + this.props.gameId;
+    let inviteUrl = window.location.href;
 
     let readyStartGameButton;
     if (this.state.gameState.lifeCycle === 'JOINING') {
@@ -133,13 +131,17 @@ class Game extends React.Component {
   dealNewRound = (newGameState) => {
     if (newGameState.lifeCycle === 'JOINING') {
       newGameState.players.forEach((p) => {
-        p.dice = [-1, -1, -1, -1, -1];
+        p.dice = [-1, -1, -1, -1, -1]; // defines number of starting dice
       });
     }
     newGameState.lifeCycle = 'IN_ROUND';
     if (newGameState.lastRoundLoserId) {
-      newGameState.players.find(p => p.id === newGameState.lastRoundLoserId).dice.pop();
-      newGameState.whosTurnId = newGameState.lastRoundLoserId;
+      let lastRoundLoserIndex = newGameState.players
+        .findIndex(p => p.id === newGameState.lastRoundLoserId);
+      newGameState.players[lastRoundLoserIndex].dice.pop();
+      newGameState.whosTurnId = this.getNextPlayerIdWithDice(
+        newGameState.players,
+        lastRoundLoserIndex);
     } else {
       newGameState.whosTurnId = newGameState.players[0].id;
     }
@@ -194,7 +196,9 @@ class Game extends React.Component {
     let heroIndex = newGameState.players.findIndex (p => p.id === this.state.heroId);
     newGameState.players[heroIndex].lastBet = newBet;
     newGameState.mostRecentBet = newBet;
-    let nextTurnId = (heroIndex + 1) % newGameState.players.length;
+    let nextTurnId = this.getNextPlayerIdWithDice(
+      newGameState.players,
+      (heroIndex + 1) % newGameState.players.length);
     newGameState.whosTurnId = nextTurnId;
 
     this.props.service.setGameState(this.state.gameId, newGameState);
@@ -203,6 +207,14 @@ class Game extends React.Component {
     this.setState({
       gameState: newGameState,
     });    
+  }
+
+  getNextPlayerIdWithDice(players, startIndex) {
+    console.log('akxyz startIndex ', startIndex);
+    while(!players[startIndex].dice || players[startIndex].dice.length === 0) {
+      startIndex = (startIndex + 1) % players.length;
+    }
+    return players[startIndex].id;
   }
 
   onClickCallLiar = () => {
@@ -225,7 +237,7 @@ class Game extends React.Component {
     let newGameState = this.state.gameState;
 
     let heroIndex = newGameState.players.findIndex (p => p.id === this.state.heroId);
-    let betterInQuestionIndex =
+    let betterInQuestionIndex = // TODO previousPlayeerWithDiceId
       (heroIndex - 1 + newGameState.players.length) % newGameState.players.length;
     let betterInQuestionId = newGameState.players[betterInQuestionIndex].id;
     
@@ -265,14 +277,17 @@ class Game extends React.Component {
     let numPlayersWithDice = 0;
     newGameState.players.forEach(
       (p) => { 
-        if (p.id === loserId && p.dice.length >= 2) {
-          numPlayersWithDice++;
+        if (p.id === loserId) {
+          if (p.dice.length >= 2) {
+            numPlayersWithDice++;
+          }
         } else if (p.dice.length >= 1) {
           numPlayersWithDice++;
         }
       }
     );
 
+    console.log('akxyz numPlayersWithDice: ', numPlayersWithDice);
     if (numPlayersWithDice > 1) {
       newGameState.lifeCycle = 'END_ROUND';
     } else {

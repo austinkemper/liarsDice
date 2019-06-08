@@ -44,10 +44,6 @@ class FirebaseService {
     return gameId;
   }
 
-  getBaseUrl = () => {
-    return 'localhost:3000';
-  }
-
   uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       // eslint-disable-next-line
@@ -111,13 +107,19 @@ class FirebaseService {
     } else if (typeof gameState.players === 'object') { 
       gameState.players = Object.values(gameState.players);
     }
+    gameState.players.forEach((p) => {
+      if (!p.dice) {
+        p.dice = [];
+      }
+    });
     return gameState;
   }
 
   // subscribe to gamestate.
 
   setGameState = async (gameId, gameState) => {
-
+    let gameRef = this.database.ref('games/' + gameId);
+    gameRef.set(gameState);
   }
 }
 
